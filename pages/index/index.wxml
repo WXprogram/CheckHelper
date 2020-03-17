@@ -1,0 +1,11 @@
+<view>
+  <view class='info'>手机快捷登录</view>
+  <form bindsubmit="formSubmit">
+    <view class='info_phone'>
+      <input class='phone' name='mobile' placeholder='请输入手机号'></input>
+    </view>
+    <view class='log'>
+      <button class='btn' formType="submit">登录</button>
+    </view>
+  </form>
+</view>

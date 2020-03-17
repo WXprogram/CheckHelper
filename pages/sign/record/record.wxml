@@ -1,0 +1,21 @@
+<view>
+  <map
+  id="map"
+  class='map'
+  longitude="{{info.longitude}}"
+  latitude="{{info.latitude}}"
+  scale="15.5"
+  controls="{{controls}}"
+  bindcontroltap="controltap"
+  bindmarkertap="markertap"
+  style="width: 100%; height: {{height*0.9-50}}px;position:absolute;left;0;top:0;"
+  markers="{{markers}}"
+  covers="{{covers}}"
+  circles="{{circles}}"
+  show-location
+></map>
+
+<view class='log'>
+      <button bindtap="canSign" class='btn' formType="submit">确认并{{showSignData}}</button>
+    </view>
+</view>

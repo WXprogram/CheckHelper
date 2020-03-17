@@ -1,0 +1,76 @@
+
+<wxs src="./filter.wxs" module="filterNum" />
+<view class="weui-loadmore" wx:if='{{isRefreshing}}'>
+  <view class="weui-loading"></view>
+  <view class="weui-loadmore-tips">正在刷新...</view>
+</view>
+<!--<button bindtap='goWjdc'>问卷调查</button>-->
+  <block wx:if='{{planList!=null && planList.length>0}}'>
+    <block wx:for="{{planList}}" wx:key="{{key}}">
+      <view class='plan' bindtap='onChangeShowState' data-index="{{index}}">
+        <view class='plan_left'>
+          <block wx:if="{{item.isShow=='1'}}">
+            <view class='tishi1'>当前</view>
+          </block>
+          <block wx:else>
+            <view class='tishi2'>待办</view>
+          </block>
+        </view>
+        <view class='plan_right'>
+          <view class='plan_quhua'>{{item.region}}</view>
+          <view class='plan_time'>
+            <block wx:if="{{item.isShow=='1'}}">
+              <view class='date1'>{{item.startDate}} 至 {{item.endDate}}</view>
+            </block>
+            <block wx:else>
+              <view class='date2'>{{item.startDate}} 至 {{item.endDate}}</view>
+            </block>
+          </view>
+          <view class='plan_ent'>{{item.entName}}</view>
+          <view class="{{currentTabsIndex==index ? (showView?'show':'hide'):'hide'}}">
+            <block wx:if="{{item.projectName != null && item.projectName != ''}}">
+              <view class='plan_info'>
+                {{item.projectName}} {{item.auditType}} {{item.personPost}}
+              </view>
+            </block>
+            <view class='plan_address'>{{item.entAddress}}</view>
+            <view class='qer_url'>
+              <view class='dc'>
+                <block wx:if="{{item.appraiseUrl != null && item.appraiseUrl != ''}}">
+                  <image class='dc_img' src="{{httpUrl}}/{{item.appraiseUrl}}"></image>
+                  <view class='dc_text'>审核员评价</view>
+                </block>
+              </view>
+              <view class='pj'>
+                <image bindtap='showRecord' data-index="{{index}}" data-id='1' id='{{item.id}}'  class='pj_img' src="/image/sign/record.png"></image>
+                  <view class='pj_text'>考勤记录</view>
+                <!--
+                <block wx:if="{{item.satisfiedUrl != null && item.satisfiedUrl != ''}}">
+                  <image class='pj_img' src="{{httpUrl}}/{{item.satisfiedUrl}}"></image>
+                  <view class='pj_text'>满意度调查</view>
+                </block>
+                -->
+              </view>
+            </view>
+          </view>
+          
+        </view>
+        <view style='clear:both;'></view>
+      </view>
+    </block>
+  
+    <view wx:if='{{!isRefreshing}}' class="weui-loadmore">
+      <view wx:if='{{(page+1)<pages}}'>
+        <view class="weui-loading"></view>
+        <view class="weui-loadmore-tips">正在加载更多...</view>
+      </view>
+      <view wx:else>
+        <view class="weui-loadmore-tips">没有更多内容啦</view>
+      </view>
+    </view>
+  </block>
+  <block wx:if="{{planList==null || planList.length==0}}">
+    <view class="weui-loadmore">
+      <view class="weui-loadmore-tips">暂无数据</view>
+    </view>
+  </block>

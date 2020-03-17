@@ -1,0 +1,36 @@
+<view class="weui-loadmore" wx:if='{{isRefreshing}}'>
+  <view class="weui-loading"></view>
+  <view class="weui-loadmore-tips">正在刷新...</view>
+</view>
+<block wx:if="{{messageList.length>0}}">
+  <view>
+    <block wx:for="{{messageList}}" wx:key="{{key}}">
+      <view class='message' bindtap='showMessage' data-id='{{item.id}}'>
+        <view class='message_left'>
+          <view class='week'>{{item.week}}</view>
+          <view class='year'>{{item.year}}</view>
+        </view>
+        <view class='shu'></view>
+        <view class='message_right'>
+          <view class='title'>{{item.title}}</view>
+          <view class='content'>{{item.theme}}</view>
+        </view>
+      </view>
+    </block>
+    <view class='hen'></view>
+  </view>
+  <view wx:if='{{!isRefreshing}}' class="weui-loadmore">
+    <view wx:if='{{(page+1)<pages}}'>
+      <view class="weui-loading"></view>
+      <view class="weui-loadmore-tips">正在加载更多...</view>
+    </view>
+    <view wx:else>
+      <view class="weui-loadmore-tips">没有更多内容啦</view>
+    </view>
+  </view>
+</block>
+<block wx:if="{{messageList.length==0}}">
+  <view class="weui-loadmore">
+    <view class="weui-loadmore-tips">暂无数据</view>
+  </view>
+</block>

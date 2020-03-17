@@ -1,0 +1,8 @@
+<view class='message'>
+  <view class='title'>{{title}}</view>
+  <view class='time'>{{createDate}}</view>
+  <view class='content'>
+    <rich-text nodes='{{content}}'></rich-text>
+  </view>
+  <view class='org'>{{orgName}}</view>
+</view>

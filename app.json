@@ -1,0 +1,51 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/message/message",
+    "pages/message/info/info",
+    "pages/sign/sign",
+    "pages/sign/record/record",
+    "pages/task/task",
+    "pages/wjdc/wjdc",
+    "pages/task/show_record/show_record"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "navigationBarTitleText": "",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#488aff",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/task/task",
+        "iconPath": "image/task/task_off.png",
+        "selectedIconPath": "image/task/task_on.png",
+        "text": "待办"
+      },
+      {
+        "pagePath": "pages/sign/sign",
+        "iconPath": "image/sign/sign_off.png",
+        "selectedIconPath": "image/sign/sign_on.png",
+        "text": "签到"
+      },
+      {
+        "pagePath": "pages/message/message",
+        "iconPath": "image/message/message_off.png",
+        "selectedIconPath": "image/message/message_on.png",
+        "text": "消息"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "permission": {
+    "scope.userLocation": {
+      "desc": "您的位置信息将用于签到记录"
+    }
+  }
+}

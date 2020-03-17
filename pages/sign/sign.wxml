@@ -1,0 +1,62 @@
+<!--pages/sign/sign.wxml-->
+<view class="weui-loadmore" wx:if='{{isRefreshing}}'>
+  <view class="weui-loading"></view>
+  <view class="weui-loadmore-tips">正在刷新...</view>
+</view>
+<view style="height:{{height}}px;width:{{width}}px;">
+  <view class='head'>
+    <view class='head_left'>
+      <view class='head_left_up'>{{personName}}</view>
+      <view class='head_left_down'>{{orgName}}</view>
+    </view>
+    <block wx:if='{{signPlanList.length>0}}'>
+      <view class='head_right'>
+        <view class='head_right_content' bindtap='sign'>
+          <view class='head_right_text' >{{signData}}</view>
+          <view class='head_right_image'>
+            <image class='head_image' src="/image/sign/click.png" mode='aspectFit'></image>
+          </view>
+        </view>
+      </view>
+    </block>
+    <view class='xian'></view>
+  </view>
+
+  <block wx:if='{{signPlanList.length>0}}'>
+    <swiper bindanimationfinish='jieshu' indicator-dots='true' indicator-color='#666666' indicator-active-color='#199ED8' style='height:{{swiperHeight}}px;'>
+      <block wx:for="{{signPlanList}}" wx:key="{{key}}">
+        <swiper-item item-id='{{item.id}}'>
+          <view style='margin-top: {{contentHeight}}px;height: {{contentHeight+202}}px;width: 100%;'>
+            <view style='height: 100%;width: 100%;'>
+              <image style='height: 202px;width: 202px;margin-left:{{(width-202)/2}}px;' src='/image/sign/head.png'  mode='aspectFit'></image>
+            </view>
+            <view class="characters1" style='top:{{contentHeight+65}}px;left:44%;'>{{dateWeek.year}}</view>
+            <view class="characters2" style='top:{{contentHeight+88}}px;left: 39%;'>{{dateWeek.monthDay}}</view>
+            <view class="characters3" style='top:{{contentHeight+122}}px;left: 43%;'>{{dateWeek.week}}</view>
+            
+          </view>
+          <view class='bottom_div'>
+            <view class='title_img_div'>
+              <image class='title_image' src="/image/sign/title.png" mode='aspectFit'></image>
+            </view>
+            <text class='bottom_text'>该任务预计离完成日还剩{{item.dayNum}}天\n{{item.startDay}}开始</text>
+            <view style='clear:both;height:20rpx;'></view>
+            <view class='title_img_div'>
+              <image class='title_image' src="/image/sign/title.png" mode='aspectFit'></image>
+            </view>
+            <view class='bottom_text'>{{item.entName}}</view>
+            <view class='bottom_address'>{{item.entAddress}}</view>
+          </view>
+        </swiper-item>
+      </block>
+      
+    </swiper>
+  </block>
+  <block wx:if='{{signPlanList==null || signPlanList.length==0}}'>
+    <view class="weui-loadmore">
+      <view class="weui-loadmore-tips">暂无数据</view>
+    </view>
+  </block>
+
+  
+</view>

@@ -1,0 +1,20 @@
+
+.log{
+  width: 90%;
+  height: 50px;
+  position:absolute;
+  left:5%;
+  bottom:5%;
+}
+
+.btn{
+  height: 50px;
+  background-color: #108EE9;
+  border-radius: 4px;
+  font-family: PingFangSC-Regular;
+  font-size: 16px;
+  color: #FFFFFF;
+  letter-spacing: 0.58px;
+  text-align: center;
+  line-height: 50px;
+}
