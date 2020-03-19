@@ -261,11 +261,9 @@ Page({
                 let openId = wx.getStorageSync('openId');
                 //后台记录订阅信息，定时发送通知
                 var sendUrl = app.globalData.url;
-                console.log('that.data.info.signType==' + that.data.info.signType);
-                
                 wx.request({
-                  url: sendUrl + '/subscribeTo',
-                  data: openId,
+                  url: sendUrl + '/subscribeTo?openId='+openId,
+                  data: that.data.info.signType,
                   method: 'POST', 
                   success(result) {
 
