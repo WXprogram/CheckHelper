@@ -35,8 +35,16 @@ Page({
       personNum: '',
       orgCode: '',
       orgName: '',
-      signType: ''
+      signType: '',
+      // 健康状态
+      isReport: '上报11', //是否上报
+      isHealthy: '',//健康状态：正常、异常
+      healthyDetails:''//健康信息备注
     },
+    items:[
+      { name: '正常', value: '0', checked: 'true' },
+      { name: '异常', value: '1',color:'red' }
+  ],
     controls: [{
       id: 1,
       iconPath: '/image/sign/dw.png',
@@ -78,7 +86,34 @@ Page({
     }else{
       this.showMapData(options);
     }
-    
+    // 查询用户健康信息
+    util.requestUrl({
+      url: "/getPersonHealthyInfo",
+      method: 'GET',
+      data: { personNum: wx.getStorageSync('personNum')}
+    }).then(function (res) {
+
+      if(res){
+        that.setData({
+          info: {
+            isReport: '已上报',// 已上报
+            isHealthy: res.isHealthy,//健康状态：正常、异常
+            healthyDetails:res.healthyDetails,//健康信息备注
+          },
+          items:[
+            { name: '正常', value: '0', checked: res.isHealthy==0?'true':'false' },
+            { name: '异常', value: '1' ,color:'red', checked: res.isHealthy==1?'true':'false'}
+            ]
+        });
+
+      }else{
+        that.setData({
+          info: {
+            isReport: '未上报'// 未上报
+          }
+        });
+      }
+    })
   },
 
   showMapData: function (options) {
@@ -146,6 +181,9 @@ Page({
             longitude = addressRes.result.location.lng;
             var speed = res.speed;
             var accuracy = res.accuracy;
+            var isReport = that.data.info.isReport;
+            var isHealthy = that.data.info.isHealthy;
+            var healthyDetails = that.data.info.healthyDetails;
             that.setData({
               height: h,
               speed: speed,
@@ -157,7 +195,10 @@ Page({
                 signType: options.signType,
                 personNum: wx.getStorageSync('personNum'),
                 orgCode: wx.getStorageSync('orgCode'),
-                orgName: wx.getStorageSync('orgName')
+                orgName: wx.getStorageSync('orgName'),
+                isReport:isReport,
+                isHealthy:isHealthy,
+                healthyDetails:healthyDetails
               }
             })
           }
@@ -179,7 +220,7 @@ Page({
 
     })
   },
-
+  // 签到、签退
   canSign: function () {
     //首先判断距离是否可以签到
     var signUrl = app.globalData.url;
@@ -235,5 +276,19 @@ Page({
   controltap: function(){
     this.myMapCtx = wx.createMapContext("map", this);
     this.myMapCtx.moveToLocation();
+  },
+  // 健康状态change事件
+  healthyStateChange: function(e){
+    var that = this;
+    var info = this.data.info;
+    info.isHealthy = e.detail.value;
+    
+  },
+  // 通用input事件
+  getInputValue: function(e){
+    var info = this.data.info;
+    info.healthyDetails = e.detail.value;
+    var value = e.detail.value;
+    
   }
 })

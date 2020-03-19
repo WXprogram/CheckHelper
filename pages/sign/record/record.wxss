@@ -18,3 +18,33 @@
   text-align: center;
   line-height: 50px;
 }
+.healthy{
+  width: 90%;
+  height: 50px;
+  position:absolute;
+  left:5%;
+  bottom:14%;
+}
+
+.healthyRemarksClass{
+  width: 90%;
+  height: 50px;
+  position:absolute;
+  left:5%;
+  bottom:9%;
+}
+
+.zhengchang{
+  margin-right: 20px;
+}
+
+.yichang{
+  margin-left: 15px;
+}
+
+.input{
+  border: 1px solid gray;
+}
+.radio{
+  margin-left: 15px;
+}

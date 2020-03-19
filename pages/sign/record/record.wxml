@@ -8,13 +8,31 @@
   controls="{{controls}}"
   bindcontroltap="controltap"
   bindmarkertap="markertap"
-  style="width: 100%; height: {{height*0.9-50}}px;position:absolute;left;0;top:0;"
+  style="width: 100%; height: {{height*0.9-100}}px;position:absolute;left;0;top:0;"
   markers="{{markers}}"
   covers="{{covers}}"
   circles="{{circles}}"
   show-location
 ></map>
+<view class="healthy">
+  <!--
+  <radio-group bindchange="healthyStateChange" >
+    <label>今日健康状况({{isReport}})：</label>
+    <radio value="0" class="zhengchang">正常</radio>
+    <radio value="1" color="red" class="yichang">异常</radio>
+  </radio-group>
+  -->
+<radio-group class="radio-group" bindchange="healthyStateChange">
+  <label>今日健康状况({{info.isReport}})：</label>
+  <radio class="radio" wx:for-items="{{items}}" wx:key="name" value="{{item.value }}" checked="{{item.checked}}" color="{{item.color}}">
+      <text>{{item.name}}</text>
+  </radio>
+</radio-group>
 
+</view>
+ <view class="healthyRemarksClass">
+      <input class="input" type="text" maxlength="1000" value="{{info.healthyDetails}}" bindblur="getInputValue"></input>
+    </view>
 <view class='log'>
       <button bindtap="canSign" class='btn' formType="submit">确认并{{showSignData}}</button>
     </view>

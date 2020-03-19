@@ -139,7 +139,7 @@ Page({
       showAddress: showAddress
     })
   },
-
+  // 签到、签退事件
   sign: function () {
     var signType = this.data.showSignType;
     var lat = this.data.lat;
@@ -170,6 +170,8 @@ Page({
    */
   switchTabShow: function(signType, planId, lat, lng){
     this.showSignType(signType);
+
+    
     var list = this.data.signPlanList;
     for (var i = 0; i < list.length; i++) {
       if (list[i].id == planId) {
