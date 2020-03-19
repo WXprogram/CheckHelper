@@ -57,6 +57,7 @@ Page({
       wx.setStorageSync('personNum', res.personNum);
       wx.setStorageSync('orgCode', res.orgCode);
       wx.setStorageSync('orgName', res.orgName);
+      wx.setStorageSync('openId', res.openId);
       wx.switchTab({
         url: '/pages/sign/sign'
       })

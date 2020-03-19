@@ -63,6 +63,27 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let openId = wx.getStorageSync('openId');
+    if (openId==null || openId==''){
+      wx.login({
+        success: function (res) {
+          //获取登录的临时凭证
+          var code = res.code;
+          //调用后端，获取微信的session_key, secret
+          var loginUrl = app.globalData.url;
+          wx.request({
+            url: loginUrl + '/wxLogin?code=' + code,
+            data: wx.getStorageSync('personNum'),
+            method: 'POST',
+            success: function (result) {
+              var openId = result.data.data;
+              wx.setStorageSync("openId", openId);
+            }
+          })
+        }
+      })
+    }
+   
     var that = this;
     //util.atuoGetLocation('北京市海淀区马甸东路9号国家市场监督管理总局马甸办公区');
     //util.showPosition();
@@ -232,11 +253,36 @@ Page({
       success(result) {
         var resInfo = result.data.data;
         if ('200' == result.data.status) {
+          wx.requestSubscribeMessage({
+            tmplIds: ['iu9B0-eg_13YtGAcML0411wois1saZquFOIj3TU3ark'],
+            success(res) {
+              //允许订阅
+              if (res['iu9B0-eg_13YtGAcML0411wois1saZquFOIj3TU3ark'] === 'accept') {
+                let openId = wx.getStorageSync('openId');
+                //后台记录订阅信息，定时发送通知
+                var sendUrl = app.globalData.url;
+                console.log('that.data.info.signType==' + that.data.info.signType);
+                
+                wx.request({
+                  url: sendUrl + '/subscribeTo',
+                  data: openId,
+                  method: 'POST', 
+                  success(result) {
+
+                  }
+                })
+              }
+            }
+          })
+
           wx.showToast({
             title: that.data.showSignData + '成功',
             icon: 'success',
             duration: 2000
           })
+
+          
+
           setTimeout(function () {
             wx.switchTab({
               url: '/pages/sign/sign',
