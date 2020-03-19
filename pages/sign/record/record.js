@@ -37,7 +37,7 @@ Page({
       orgName: '',
       signType: '',
       // 健康状态
-      isReport: '上报11', //是否上报
+      isReport: '', //是否上报
       isHealthy: '',//健康状态：正常、异常
       healthyDetails:''//健康信息备注
     },
