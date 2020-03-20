@@ -24,16 +24,16 @@
   -->
 <radio-group class="radio-group" bindchange="healthyStateChange">
   <label>今日健康状况({{info.isReport}})：</label>
-  <radio class="radio" wx:for-items="{{items}}" wx:key="name" value="{{item.value }}" checked="{{item.checked}}" color="{{item.color}}">
+  <radio class="radio" wx:for-items="{{items}}" wx:key="name" value="{{item.value }}" checked="{{item.checked}}" color="{{item.color}}" disabled="{{item.disabled}}">
       <text>{{item.name}}</text>
   </radio>
 </radio-group>
 
 </view>
  <view class="healthyRemarksClass">
-      <input class="input" type="text" maxlength="1000" value="{{info.healthyDetails}}" bindblur="getInputValue"></input>
+      <input class="input" type="text" maxlength="1000" value="{{info.healthyDetails}}" bindblur="getInputValue" disabled="{{info.isReport == '已上报'}}"></input>
     </view>
 <view class='log'>
-      <button bindtap="canSign" class='btn' formType="submit">确认并{{showSignData}}</button>
+      <button bindtap="canSign"   class='btn' formType="submit" disabled="{{disabled}}"  loading="{{loading}}">确认并{{showSignData}}</button>
     </view>
 </view>

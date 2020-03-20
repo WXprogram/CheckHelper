@@ -38,11 +38,11 @@ Page({
       signType: '',
       // 健康状态
       isReport: '', //是否上报
-      isHealthy: '',//健康状态：正常、异常
+      isHealthy: '0',//健康状态：正常、异常
       healthyDetails:''//健康信息备注
     },
     items:[
-      { name: '正常', value: '0', checked: 'true' },
+      { name: '正常', value: '0', checked: true},
       { name: '异常', value: '1',color:'red' }
   ],
     controls: [{
@@ -56,7 +56,9 @@ Page({
       },
       clickable: true
     }],
-    showSignData: ''
+    showSignData: '',
+    disabled: false,
+    loading: ''
   },
 
   /**
@@ -113,7 +115,6 @@ Page({
       method: 'GET',
       data: { personNum: wx.getStorageSync('personNum')}
     }).then(function (res) {
-
       if(res){
         that.setData({
           info: {
@@ -122,17 +123,12 @@ Page({
             healthyDetails:res.healthyDetails,//健康信息备注
           },
           items:[
-            { name: '正常', value: '0', checked: res.isHealthy==0?'true':'false' },
-            { name: '异常', value: '1' ,color:'red', checked: res.isHealthy==1?'true':'false'}
+            { name: '正常', value: '0', checked: res.isHealthy=='0'?true:false,disabled:true},
+            { name: '异常', value: '1' ,color:'red', checked: res.isHealthy=='1'?true:false,disabled:true}
             ]
         });
-
       }else{
-        that.setData({
-          info: {
-            isReport: '未上报'// 未上报
-          }
-        });
+        that.data.info.isReport = '未上报'// 未上报
       }
     })
   },
@@ -243,6 +239,11 @@ Page({
   },
   // 签到、签退
   canSign: function () {
+    this.setData({
+      disabled:true,
+      loading:true,
+      canSubmit: false
+    });
     //首先判断距离是否可以签到
     var signUrl = app.globalData.url;
     var that = this;
@@ -253,11 +254,16 @@ Page({
       success(result) {
         var resInfo = result.data.data;
         if ('200' == result.data.status) {
+          wx.showToast({
+            title: that.data.showSignData + '成功',
+            icon: 'success',
+            duration: 2000
+          })
           wx.requestSubscribeMessage({
-            tmplIds: ['iu9B0-eg_13YtGAcML0411wois1saZquFOIj3TU3ark'],
+            tmplIds: ['prU0-X2iV3fChuPYEjh4K51lBVLbOBriFi4KN_lYXhQ'],
             success(res) {
               //允许订阅
-              if (res['iu9B0-eg_13YtGAcML0411wois1saZquFOIj3TU3ark'] === 'accept') {
+              if (res['prU0-X2iV3fChuPYEjh4K51lBVLbOBriFi4KN_lYXhQ'] === 'accept') {
                 let openId = wx.getStorageSync('openId');
                 //后台记录订阅信息，定时发送通知
                 var sendUrl = app.globalData.url;
@@ -266,33 +272,34 @@ Page({
                   data: that.data.info.signType,
                   method: 'POST', 
                   success(result) {
-
+                    setTimeout(function () {
+                      wx.switchTab({
+                        url: '/pages/sign/sign',
+                        success: function (e) {
+                          var page = getCurrentPages();
+                          if (page == undefined || page == null) return;
+                          page[0].switchTabShow(that.data.info.signType, that.data.info.planId, that.data.circles.latitude, that.data.circles.longitude);
+                        }
+                      })
+                    }, 500);      
                   }
                 })
+              }else{
+                setTimeout(function () {
+                  wx.switchTab({
+                    url: '/pages/sign/sign',
+                    success: function (e) { 
+                      var page = getCurrentPages();
+                      if (page == undefined || page == null) return;
+                      page[0].switchTabShow(that.data.info.signType, that.data.info.planId, that.data.circles.latitude, that.data.circles.longitude);
+                    }
+                  })
+                }, 500);  
               }
             }
           })
-
-          wx.showToast({
-            title: that.data.showSignData + '成功',
-            icon: 'success',
-            duration: 2000
-          })
-
-          
-
-          setTimeout(function () {
-            wx.switchTab({
-              url: '/pages/sign/sign',
-              success: function (e) {
-                var page = getCurrentPages();
-                if (page == undefined || page == null) return;
-                page[0].switchTabShow(that.data.info.signType, that.data.info.planId, that.data.circles.latitude, that.data.circles.longitude);
-              }
-            })
-          }, 1000);
-
         } else {
+          that.data.disabled = false;
           var showMsg = '';
           if ('1' == result.data.status) {
             showMsg = result.data.msg;
@@ -323,7 +330,6 @@ Page({
   },
   // 健康状态change事件
   healthyStateChange: function(e){
-    var that = this;
     var info = this.data.info;
     info.isHealthy = e.detail.value;
     
@@ -332,7 +338,5 @@ Page({
   getInputValue: function(e){
     var info = this.data.info;
     info.healthyDetails = e.detail.value;
-    var value = e.detail.value;
-    
   }
 })
