@@ -12,7 +12,7 @@ App({
   },
   globalData: {
     userInfo: null,
-    //url: 'https://manyidu.cait.com/wjdc/a/mobile/wechat/ch'
-    url: 'http://192.168.12.76:8080/wjdc/a/mobile/wechat/ch'
+    url: 'https://manyidu.cait.com/wjdc/a/mobile/wechat/ch'
+    //url: 'http://192.168.12.76:8080/wjdc/a/mobile/wechat/ch'
   }
 })
