@@ -34,6 +34,6 @@
       <input class="input" type="text" maxlength="1000" value="{{info.healthyDetails}}" bindblur="getInputValue" disabled="{{info.isReport == '已上报'}}"></input>
     </view>
 <view class='log'>
-      <button bindtap="canSign"   class='btn' formType="submit" disabled="{{disabled}}"  loading="{{loading}}">确认并{{showSignData}}</button>
+      <button bindtap="canSign"   class='btn' formType="submit" disabled="{{disabled}}" >确认并{{showSignData}}</button>
     </view>
 </view>

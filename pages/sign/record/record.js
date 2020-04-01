@@ -57,8 +57,7 @@ Page({
       clickable: true
     }],
     showSignData: '',
-    disabled: false,
-    loading: ''
+    disabled: false
   },
 
   /**
@@ -241,7 +240,6 @@ Page({
   canSign: function () {
     this.setData({
       disabled:true,
-      loading:true,
       canSubmit: false
     });
     //首先判断距离是否可以签到
@@ -254,11 +252,6 @@ Page({
       success(result) {
         var resInfo = result.data.data;
         if ('200' == result.data.status) {
-          wx.showToast({
-            title: that.data.showSignData + '成功',
-            icon: 'success',
-            duration: 2000
-          })
           wx.requestSubscribeMessage({
             tmplIds: ['prU0-X2iV3fChuPYEjh4K51lBVLbOBriFi4KN_lYXhQ'],
             success(res) {
@@ -272,45 +265,31 @@ Page({
                   data: that.data.info.signType,
                   method: 'POST', 
                   success(result) {
-                    setTimeout(function () {
-                      wx.switchTab({
-                        url: '/pages/sign/sign',
-                        success: function (e) {
-                          var page = getCurrentPages();
-                          if (page == undefined || page == null) return;
-                          page[0].switchTabShow(that.data.info.signType, that.data.info.planId, that.data.circles.latitude, that.data.circles.longitude);
-                        }
-                      })
-                    }, 500);      
+                    that.tip(that.data.showSignData + '成功',that,'');  
                   }
                 })
               }else{
-                setTimeout(function () {
-                  wx.switchTab({
-                    url: '/pages/sign/sign',
-                    success: function (e) { 
-                      var page = getCurrentPages();
-                      if (page == undefined || page == null) return;
-                      page[0].switchTabShow(that.data.info.signType, that.data.info.planId, that.data.circles.latitude, that.data.circles.longitude);
-                    }
-                  })
-                }, 500);  
+                that.tip(that.data.showSignData + '成功',that,'');
               }
             }
           })
         } else {
-          that.data.disabled = false;
+          // 未在签到打卡范围，进行页面跳转
           var showMsg = '';
           if ('1' == result.data.status) {
             showMsg = result.data.msg;
+            if((that.data.info.isReport) == '未上报'){
+              showMsg = '上报成功\r\n' + showMsg;
+            }
+            that.tip(showMsg,that,'fail');   
           } else {
             showMsg = '系统繁忙，请稍后再试';
-          }
-          wx.showToast({
-            title: showMsg,
-            icon: 'none',
-            duration: 2000
-          })
+            wx.showToast({
+              title: showMsg,
+              icon: 'none',
+              duration: 2000
+            })
+          } 
         }
       },
       fail(result) {
@@ -320,9 +299,7 @@ Page({
           duration: 2000
         })
       }
-
     })
-
   },
   controltap: function(){
     this.myMapCtx = wx.createMapContext("map", this);
@@ -338,5 +315,26 @@ Page({
   getInputValue: function(e){
     var info = this.data.info;
     info.healthyDetails = e.detail.value;
+  },
+
+  // 模态确认窗口
+  tip:function(content,param,signResult){
+    wx.showModal({
+      title: '提示',
+      content: content,
+      showCancel: false,
+      success: function() {
+          setTimeout(function () {
+            wx.switchTab({
+              url: '/pages/sign/sign',
+              success: function (e) {
+                var page = getCurrentPages();
+                if (page == undefined || page == null) return;
+                page[0].switchTabShow(param.data.info.signType, param.data.info.planId, param.data.circles.latitude, param.data.circles.longitude,signResult);
+              }
+            })
+          }, 500);
+      }
+    }) 
   }
 })

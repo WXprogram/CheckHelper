@@ -81,6 +81,7 @@ Page({
       wx.setStorageSync('mapRadius', res.radius);
       if (res.signPlanList != null && res.signPlanList.length>0){
         firstSignPlan = res.signPlanList[0];
+        // 初始化签到、签退显示
         that.showSignType(firstSignPlan.signType);
         that.setData({
           personNum: res.personNum,
@@ -157,28 +158,29 @@ Page({
     })
   },
 
-  showSignType: function (signType) {
-    //如果等于2，表示最新的是签退 那么下次就是签到
-    if (signType == '1') {
-      this.setData({
-        signData: '签退',
-        showSignType: '2'
-      })
-    } else {
-      this.setData({
-        signData: '签到',
-        showSignType: '1'
-      })
+  showSignType: function (signType,signResult) {
+    //如果等于2，表示最新的是签退 那么下次就是签到,signResult签到结果（未在签到范围结果为'fail'）
+    // 签到成功再更改页面显示'签到'还是'签退'
+    if(signResult != 'fail'){
+      if (signType == '1') {
+        this.setData({
+          signData: '签退',
+          showSignType: '2'
+        })
+      } else {
+        this.setData({
+          signData: '签到',
+          showSignType: '1'
+        })
+      }
     }
   },
 
   /**
    * record。js跳转回来之后执行的方法   改变页面签到签退显示
    */
-  switchTabShow: function(signType, planId, lat, lng){
-    this.showSignType(signType);
-
-    
+  switchTabShow: function(signType, planId, lat, lng,signResult){
+    this.showSignType(signType,signResult);
     var list = this.data.signPlanList;
     for (var i = 0; i < list.length; i++) {
       if (list[i].id == planId) {
