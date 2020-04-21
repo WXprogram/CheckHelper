@@ -4,7 +4,17 @@
   height: 50px;
   position:absolute;
   left:5%;
-  bottom:5%;
+  bottom:3%;
+}
+.input{
+  height:37px;
+  width: 100%;
+  display:-webkit-box;
+  -webkit-line-clamp:1;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  -webkit-box-orient:vertical;
+  word-break:break-all;
 }
 
 .btn{
