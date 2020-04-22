@@ -31,6 +31,7 @@
 
 </view>
  <view class="healthyRemarksClass">
+    <label class="healthyDetailsLabel">备注：</label>
       <input class="input" type="text" maxlength="300" value="{{info.healthyDetails}}" bindblur="getInputValue" disabled="{{info.isReport == '已上报'}}"></input>
     </view>
 <view class='log'>

@@ -6,15 +6,18 @@
   left:5%;
   bottom:3%;
 }
+.healthyDetailsLabel{
+  width: 10%;
+}
+
 .input{
   height:37px;
-  width: 100%;
-  display:-webkit-box;
-  -webkit-line-clamp:1;
+  width: 80%;
+  display:inline-block;
   overflow:hidden;
   text-overflow:ellipsis;
-  -webkit-box-orient:vertical;
   word-break:break-all;
+  vertical-align:middle;
 }
 
 .btn{

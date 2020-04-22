@@ -7,5 +7,6 @@
     <view class='log'>
       <button class='btn' formType="submit">登录</button>
     </view>
+    <view class="describe">北京中认网信息技术有限公司出品的审核助手，旨在帮助审核人员及时获取任务，提供认证机构与审核员间的沟通方式，提高工作效率。</view>
   </form>
 </view>
